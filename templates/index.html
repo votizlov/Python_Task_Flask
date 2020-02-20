@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <title>Flask</title>
 </head>
 <body>
@@ -9,5 +10,23 @@
     <input name="text">
     <input type="submit">
 </form>
+     <button type='button' id ='retrieve'>Submit</button>
+     <img src="" id="myimg"  />
 </body>
+<script>
+    $(document).ready(function() {
+       $('#retrieve').click(function(){
+           $.ajax({
+           url: "{{ url_for ('generate_qr') }}",
+           type: "GET",
+           success: function(response) {
+               $("#myimg").attr('src', '/static/' + response);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+         }
+         });
+       });
+    });
+  </script>
 </html>
