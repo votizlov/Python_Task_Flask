@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, send_file
-import qrcode
-from pathlib import Path
+from flask_qrcode import QRcode
 
 app = Flask(__name__)
+qrcode = QRcode(app)
 
 # if __name__ == '__main__':
 app.run()
@@ -19,10 +19,17 @@ def my_form_post():
     processed_text = text.upper()
     return processed_text
 
-
-@app.route('/', methods=['GET'])
-def generate_qr():
+#deprecated
+@app.route("/getimage")
+def get_img():
     img = qrcode.make(request.form['text'])
-   # path = Path('C:\Users\User\PycharmProjects\Python_Task_Flask\img')
-    img.save('\img','png')
-    return img
+    # img.save('\static\img.png')
+    return "a.jpg"
+
+
+@app.route("/qrcode", methods=["GET"])
+def get_qrcode():
+    # please get /qrcode?data=<qrcode_data>
+    data = request.args.get("data", "")
+    img = qrcode(data, mode="raw")
+    return qrcode(data)

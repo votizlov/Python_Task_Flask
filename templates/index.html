@@ -10,17 +10,21 @@
     <input name="text">
     <input type="submit">
 </form>
-     <button type='button' id ='retrieve'>Submit</button>
+<form action="/" id="submit">
+    <input name="data">
+</form>
+     <button type='button' id ='retrieve'>Generate qr</button>
      <img src="" id="myimg"  />
 </body>
-<script>
+  <script>
     $(document).ready(function() {
        $('#retrieve').click(function(){
            $.ajax({
-           url: "{{ url_for ('generate_qr') }}",
+           url: "/qrcode",
+           data: $("#submit").serialize(),
            type: "GET",
            success: function(response) {
-               $("#myimg").attr('src', '/static/' + response);
+               $("#myimg").attr('src', response);
           },
           error: function(xhr) {
             //Do Something to handle error
