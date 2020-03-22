@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, send_file
+from flask import Flask, render_template, request, jsonify
 from flask_qrcode import QRcode
+from tablib import Dataset
+import tablib
 
 app = Flask(__name__)
 qrcode = QRcode(app)
@@ -19,17 +21,14 @@ def my_form_post():
     processed_text = text.upper()
     return processed_text
 
-#deprecated
-@app.route("/getimage")
-def get_img():
-    img = qrcode.make(request.form['text'])
-    # img.save('\static\img.png')
-    return "a.jpg"
 
-
-@app.route("/qrcode", methods=["GET"])
-def get_qrcode():
-    # please get /qrcode?data=<qrcode_data>
-    data = request.args.get("data", "")
-    img = qrcode(data, mode="raw")
-    return qrcode(data)
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    # I used form data type which means there is a
+    # "Content-Type: application/x-www-form-urlencoded"
+    # header in my request
+    # raw_data = request.files['file'].read()  # In form data, I used "myfile" as key.
+    # dataset = Dataset().load(raw_data)
+    my_dataset = tablib.Dataset()
+    my_dataset.xls = request.files['file'].read()
+    return my_dataset.export('json')

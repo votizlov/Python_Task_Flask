@@ -6,31 +6,29 @@
     <title>Flask</title>
 </head>
 <body>
-<form method="POST">
-    <input name="text">
-    <input type="submit">
+<form action="http://localhost:5000/upload" method="POST"
+      enctype="multipart/form-data">
+    <input type="file" name="file"/>
+    <input type="submit" id="retrieve"/>
 </form>
-<form action="/" id="submit">
-    <input name="data">
-</form>
-     <button type='button' id ='retrieve'>Generate qr</button>
-     <img src="" id="myimg"  />
+<textarea id='textArea'>
+    </textarea>
 </body>
-  <script>
-    $(document).ready(function() {
-       $('#retrieve').click(function(){
-           $.ajax({
-           url: "/qrcode",
-           data: $("#submit").serialize(),
-           type: "GET",
-           success: function(response) {
-               $("#myimg").attr('src', response);
-          },
-          error: function(xhr) {
-            //Do Something to handle error
-         }
-         });
-       });
+<script>
+    $(document).ready(function () {
+        $('#retrieve').click(function () {
+            $.ajax({
+                url: "/upload",
+                data: $("#submit").serialize(),
+                type: "GET",
+                success: function (response) {
+                    $("#textArea").attr('val', response);
+                },
+                error: function (xhr) {
+                    //Do Something to handle error
+                }
+            });
+        });
     });
-  </script>
+</script>
 </html>
