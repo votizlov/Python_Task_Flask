@@ -6,31 +6,34 @@
     <title>Flask</title>
 </head>
 <body>
-<form method="POST">
-    <input name="text">
-    <input type="submit">
-</form>
 <form action="/" id="submit">
     <input name="data">
 </form>
-     <button type='button' id ='retrieve'>Generate qr</button>
-     <img src="" id="myimg"  />
+<button type='button' id='retrieve'>Перевести</button>
+<textarea id="output"></textarea>
+<select id="currency">
+    <option>Евро</option>
+    <option>Доллары</option>
+</select>
 </body>
-  <script>
-    $(document).ready(function() {
-       $('#retrieve').click(function(){
-           $.ajax({
-           url: "/qrcode",
-           data: $("#submit").serialize(),
-           type: "GET",
-           success: function(response) {
-               $("#myimg").attr('src', response);
-          },
-          error: function(xhr) {
-            //Do Something to handle error
-         }
-         });
-       });
+<script>
+    $(document).ready(function () {
+        info = [];
+        info[0] = $('#currency');
+        info[1] = $('#submit');
+        $('#retrieve').click(function () {
+            $.ajax({
+                url: "/converter",
+                data: {info:info},//.serialize(),
+                type: "GET",
+                success: function (response) {
+                    $("#output").attr('text', response);
+                },
+                error: function (xhr) {
+                    //Do Something to handle error
+                }
+            });
+        });
     });
-  </script>
+</script>
 </html>
