@@ -6,25 +6,22 @@
     <title>Flask</title>
 </head>
 <body>
-<form method="POST">
-    <input name="text">
-    <input type="submit">
+
+<textarea id="input"></textarea>
+
+<textarea id="output"></textarea>
 </form>
-<form action="/" id="submit">
-    <input name="data">
-</form>
-     <button type='button' id ='retrieve'>Generate qr</button>
-     <img src="" id="myimg"  />
+     <button type='button' id ='retrieve'>Solve</button>
 </body>
   <script>
     $(document).ready(function() {
        $('#retrieve').click(function(){
            $.ajax({
-           url: "/qrcode",
-           data: $("#submit").serialize(),
+           url: "/solve",
+           data: $("#input").serialize(),
            type: "GET",
            success: function(response) {
-               $("#myimg").attr('src', response);
+               $("#output").attr('text', response);
           },
           error: function(xhr) {
             //Do Something to handle error

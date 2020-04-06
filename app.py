@@ -19,20 +19,14 @@ def my_form_post():
     processed_text = text.upper()
     return processed_text
 
-#deprecated
-@app.route("/getimage")
-def get_img():
-    img = qrcode.make(request.form['text'])
-    # img.save('\static\img.png')
-    return "a.jpg"
 
-
-@app.route("/qrcode", methods=["GET"])
-def get_qrcode():
-    # please get /qrcode?data=<qrcode_data>
+@app.route("/solve", methods=["GET"])
+def solve():
     data = request.args.get("data", "")
-    img = qrcode(data, mode="raw")
-    return qrcode(data)
+    n1, m1 = [9,9]
+    a = [[int(j) for j in data.split()] for i in range(n1)]#todo deconstruct input
+    solveSudoku(a)
+    return a
 
 def findNextCellToFill(grid, i, j):
     for x in range(i, 9):
