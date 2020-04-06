@@ -14,17 +14,16 @@ def my_form():
     return render_template('index.html')
 
 
-@app.route('/', methods=['POST'])
-def my_form_post():
-    data = request.args.get("data", "")
-    tables = pd.read_html('http://cbr.ru/key-indicators/')
-    print(tables)
-    return str(tables)
-
 @app.route("/converter", methods=["GET"])
-def get_qrcode():
-    data = request.args.get("data", "")#1 - usd, 2 - eur
+def convert():
+    curr = request.args.get("curr", "")  # 1 - usd, 2 - eur
+    val = request.args.get("val", "")
     tables = pd.read_html('http://cbr.ru/key-indicators/')
-    print()
-    #print(tables)
-    return data
+    output = "Неизвестная валюта"
+    if curr == "Евро":
+        output = tables[0][2][2]
+    elif curr == "Доллары":
+        output = tables[0][1][1]
+    print(curr)
+    print(tables)
+    return str(output)

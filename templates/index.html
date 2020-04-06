@@ -6,9 +6,7 @@
     <title>Flask</title>
 </head>
 <body>
-<form action="/" id="submit">
-    <input name="data">
-</form>
+<textarea id="input"></textarea>
 <button type='button' id='retrieve'>Перевести</button>
 <textarea id="output"></textarea>
 <select id="currency">
@@ -18,16 +16,14 @@
 </body>
 <script>
     $(document).ready(function () {
-        info = [];
-        info[0] = $('#currency');
-        info[1] = $('#submit');
+        let send = $('#currency').serialize(); //+ $('#submit').serialize;
         $('#retrieve').click(function () {
             $.ajax({
                 url: "/converter",
-                data: {info:info},//.serialize(),
+                data: {curr:$('#currency').children("option:selected").val(),val:$('#input').val()},//.serialize(),
                 type: "GET",
                 success: function (response) {
-                    $("#output").attr('text', response);
+                    $("#output").val(response);
                 },
                 error: function (xhr) {
                     //Do Something to handle error
