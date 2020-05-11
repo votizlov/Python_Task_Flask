@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, send_file
-from flask_qrcode import QRcode
 import pandas as pd
 
 app = Flask(__name__)
-qrcode = QRcode(app)
 
 # if __name__ == '__main__':
 app.run()
@@ -21,9 +19,11 @@ def convert():
     tables = pd.read_html('http://cbr.ru/key-indicators/')
     output = "Неизвестная валюта"
     if curr == "Евро":
-        output = tables[0][2][2]
+        t = tables[0][2][2]
+        output = float(t[:2]+'.'+t[2:])*float(val)
     elif curr == "Доллары":
-        output = tables[0][1][1]
+        t = tables[0][1][1]
+        output = float(t[:2]+'.'+t[2:])*float(val)
     print(curr)
     print(tables)
     return str(output)
