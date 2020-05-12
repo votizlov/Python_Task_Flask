@@ -18,10 +18,10 @@
        $('#retrieve').click(function(){
            $.ajax({
            url: "/solve",
-           data: $("#input").serialize(),
+           data: {val:$('#input').val()},
            type: "GET",
            success: function(response) {
-               $("#output").attr('text', response);
+               $("#output").val(response);
           },
           error: function(xhr) {
             //Do Something to handle error

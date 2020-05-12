@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, send_file
+import numpy
+from flask import Flask, render_template, request, send_file, jsonify
 from flask_qrcode import QRcode
 
 app = Flask(__name__)
@@ -22,11 +23,12 @@ def my_form_post():
 
 @app.route("/solve", methods=["GET"])
 def solve():
-    data = request.args.get("data", "")
-    n1, m1 = [9,9]
-    a = [[int(j) for j in data.split()] for i in range(n1)]#todo deconstruct input
+    data = request.args.get("val", "")
+    a = numpy.array([[int(j) for j in i.split(' ')] for i in data.splitlines()]) # list(map(int, data.split(' ')))#[[int(j) for j in data.split()] for i in range(n1)]
     solveSudoku(a)
-    return a
+    print(a)
+    return jsonify(a.tolist())
+
 
 def findNextCellToFill(grid, i, j):
     for x in range(i, 9):
